@@ -1,7 +1,7 @@
 # Cellular Automaton in Haskell
 
 * [x] Conway's Game of Life
-* [x] Conway's Game of Life
+* [x] WireWorld
 
 ## Setup
 See README in each folder.
