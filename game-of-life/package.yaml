@@ -1,0 +1,40 @@
+name:                game-of-life
+version:             0.1.0.0
+github:              "bergsans/cellular-automaton-in-haskell/game-of-life"
+license:             BSD3
+author:              "Claes-Magnus Berg"
+maintainer:          "claes-magnus@herebeseaswines.net"
+copyright:           "2020 Claes-Magnus Berg"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/bergsans/cellular-automaton-in-haskell/game-of-life#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  game-of-life-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - game-of-life
+
+tests:
+  game-of-life-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - game-of-life
