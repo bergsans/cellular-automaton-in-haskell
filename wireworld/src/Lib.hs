@@ -19,8 +19,8 @@ type Generation = Integer
 --------------------------------------
 -- Format pattern
 --------------------------------------
-isCharLiving ∷ Char → Integer
-isCharLiving char
+cellState ∷ Char → Integer
+cellState char
         | char == '.' = 0
         | char == 'h' = 1
         | char == '*' = 3
@@ -28,7 +28,7 @@ isCharLiving char
 
 makeRow ∷ String → Int → [Node]
 makeRow row y =
-      [((x,y), isCharLiving $ row !! x) | x ← [0..length row - 1]]
+      [((x,y), cellState $ row !! x) | x ← [0..length row - 1]]
 
 prepareData ∷ [String] → Game
 prepareData rawData =
