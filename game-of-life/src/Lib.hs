@@ -10,6 +10,8 @@ module Lib (
     , Generation
   ) where
 
+import               Data.Maybe
+
 type Point      = (Int, Int)
 type Status     = Bool
 type Node       = (Point, Status)
@@ -21,8 +23,8 @@ type Generation = Integer
 --------------------------------------
 isCharLiving ∷ Char → Bool
 isCharLiving char
-        | char == 'o' = True
-        | otherwise   = False
+  | char == 'o' = True
+  | otherwise   = False
 
 makeRow ∷ String → Int → [Node]
 makeRow row y =
@@ -40,13 +42,15 @@ directions = [(0,-1), (1,-1), (1,0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1)]
 
 isAlive ∷ Game → Point → Bool
 isAlive game node
-  | null (getNode node game)              = False
-  | head (getNode node game) `elem` game
-    && snd (head (getNode node game))     = True
-  | otherwise                             = False
+  | isNothing(getCell node game)      = False
+  | snd (fromJust(getCell node game)) = True
+  | otherwise                         = False
 
-getNode ∷ Eq a ⇒ a → [(a, b)] → [(a, b)]
-getNode k = filter (\n → fst n == k)
+getCell ∷ Point → Game → Maybe Node
+getCell pos [] = Nothing
+getCell pos (((x,y), status) : rest)
+  | pos == (x,y) = Just ((x,y), status)
+  | otherwise = getCell pos rest
 
 nextNodeState ∷ Integer → Bool → Bool
 nextNodeState aliveNeighbours status
