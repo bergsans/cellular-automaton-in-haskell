@@ -18,9 +18,6 @@ type Node       = (Point, Status)
 type Game       = [Node]
 type Generation = Integer
 
---------------------------------------
--- Format pattern
---------------------------------------
 isCharLiving ∷ Char → Bool
 isCharLiving char
   | char == 'o' = True
@@ -34,9 +31,6 @@ prepareData ∷ [String] → Game
 prepareData rawData =
       concat [ makeRow (rawData !! y) y | y ← [0..length rawData - 1]]
 
---------------------------------------
--- Logic
---------------------------------------
 directions ∷ [Point]
 directions = [(0,-1), (1,-1), (1,0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1)]
 

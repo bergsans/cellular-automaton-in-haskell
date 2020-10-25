@@ -19,12 +19,12 @@ main = do
         loop w (prepareData $ lines rawData) 0
     else putStrLn "./run <patters/filename>"
 
-representation ∷ Type → String
+representation ∷ State → String
 representation node
-            | node == 1   = "██"
-            | node == 2   = "▓▓"
-            | node == 3   = "░░"
-            | otherwise   = "  "
+  | node == 1   = "██"
+  | node == 2   = "▓▓"
+  | node == 3   = "░░"
+  | otherwise   = "  "
 
 putNode ∷ Node → Update ()
 putNode node
