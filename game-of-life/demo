@@ -1,2 +1,0 @@
-#!/bin/sh
-stack exec game-of-life-exe ./patterns/pentadecathlon
