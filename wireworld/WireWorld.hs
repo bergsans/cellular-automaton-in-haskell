@@ -1,15 +1,15 @@
-{-# LANGUAGE UnicodeSyntax #-}
+      {-# LANGUAGE UnicodeSyntax #-}
 
 module Main where
 
-import           System.Environment
-import           Control.Concurrent
-import           Data.Maybe
+import                  System.Environment
+import                  Control.Concurrent
+import                  Data.Maybe
 
-type Point      = (Int, Int)
-type State      = Integer
-type Node       = (Point, State)
-type Game       = [Node]
+type Point = (Int, Int)
+type State = Integer
+type Node  = (Point, State)
+type Game  = [Node]
 
 stateEMPTY     = 0
 stateHEAD      = 1
@@ -23,10 +23,10 @@ main = do
 
 representation ∷ State → String
 representation node
-  | node == 1   = "██"
-  | node == 2   = "▓▓"
-  | node == 3   = "░░"
-  | otherwise   = "  "
+  | node == stateHEAD      = "██"
+  | node == stateTAIL      = "▓▓"
+  | node == stateCONDUCTOR = "░░"
+  | otherwise              = "  "
 
 putNode ∷ Node → IO ()
 putNode node
@@ -69,27 +69,26 @@ getNode pos (((x,y), status) : rest)
 
 isHead ∷ Maybe Node → Integer
 isHead node
-  | isNothing node           = stateCONDUCTOR
-  | snd (fromJust node) == 1 = stateHEAD
-  | otherwise                = stateCONDUCTOR
+  | isNothing node                   = stateCONDUCTOR
+  | snd (fromJust node) == stateHEAD = stateHEAD
+  | otherwise                        = stateCONDUCTOR
 
 checkNeighbors ∷ Node → Game → [Point] → Integer → Integer
 checkNeighbors ((x,y), nodeState) game dirs isAny
-  | isAny == 1    = stateHEAD
-  | null dirs     = stateCONDUCTOR
-  | otherwise     =
-      checkNeighbors
-        ((x,y), nodeState)
-        game
-        (tail dirs)
-        (isHead (getNode (x + fst (head dirs), y + snd (head dirs)) game))
+  | isAny == stateHEAD = stateHEAD
+  | null dirs          = stateCONDUCTOR
+  | otherwise          = checkNeighbors
+     ((x,y), nodeState)
+     game
+     (tail dirs)
+     (isHead (getNode (x + fst (head dirs), y + snd (head dirs)) game))
 
 nextNodeState ∷ Node → Game → State
 nextNodeState ((x,y), state) game
-  | state == 1 = stateTAIL
-  | state == 2 = stateCONDUCTOR
-  | state == 3 = checkNeighbors ((x,y), state) game directions state
-  | otherwise  = stateEMPTY
+  | state == stateHEAD      = stateTAIL
+  | state == stateTAIL      = stateCONDUCTOR
+  | state == stateCONDUCTOR = checkNeighbors ((x,y), state) game directions state
+  | otherwise               = stateEMPTY
 
 makeNode ∷ Node → Game → Node
 makeNode node game = (fst node, nextNodeState node game)
