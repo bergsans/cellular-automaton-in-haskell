@@ -1,4 +1,4 @@
-      {-# LANGUAGE UnicodeSyntax #-}
+{-# LANGUAGE UnicodeSyntax #-}
 
 module Main where
 
@@ -40,7 +40,7 @@ get ∷ Game → IO ()
 get game = do
   sequence_ [putNode node | node ← game]
   clearScreen
-  threadDelay 200000
+  threadDelay 500000
   get (nextState game)
 
 nodeState ∷ Char → Integer
