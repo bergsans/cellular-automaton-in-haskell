@@ -2,9 +2,9 @@
 
 module Main where
 
-import                  System.Environment
-import                  Control.Concurrent
-import                  Data.Maybe
+import           Control.Concurrent
+import           Data.Maybe
+import           System.Environment
 
 type Point = (Int, Int)
 type State = Integer
@@ -68,10 +68,11 @@ getNode pos (((x,y), status) : rest)
   | otherwise = getNode pos rest
 
 isHead ∷ Maybe Node → Integer
-isHead node
-  | isNothing node                   = stateCONDUCTOR
-  | snd (fromJust node) == stateHEAD = stateHEAD
-  | otherwise                        = stateCONDUCTOR
+isHead node = case node of
+  Just node → if snd node == stateHEAD
+                then stateHEAD
+                else stateCONDUCTOR
+  Nothing   → stateCONDUCTOR
 
 checkNeighbors ∷ Node → Game → [Point] → Integer → Integer
 checkNeighbors ((x,y), nodeState) game dirs isAny
